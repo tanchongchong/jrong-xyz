@@ -1,0 +1,89 @@
+spring:
+  jpa:
+    # database-platform: com.jrong.xyz.config.MySQL5DialectUTF8
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+  datasource:
+    url: jdbc:mysql://192.168.5.11:3306/xyz?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: Kaka_2017
+    hikari:
+      ##  Hikari 连接池配置 ------ 详细配置请访问：https://github.com/brettwooldridge/HikariCP
+      ## 最小空闲连接数量
+      minimum-idle: 5
+      ## 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 180000
+      ## 连接池最大连接数，默认是10
+      maximum-pool-size: 15
+      ## 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      ## 连接池母子
+      pool-name: MyHikariCP
+      ## 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      ## 数据库连接超时时间,默认30秒，即30000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    database: 0
+    #   host: 192.168.200.135
+    #   password: vd#JBmEf165uZbEo
+    host: localhost
+    port: 6379
+    #password: 123456
+  # yml配置的优先级高于java配置；如果yml配置和java配置同时存在，则yml配置会覆盖java配置
+  http-client:
+    pool:
+      #连接池的最大连接数，0代表不限；如果取0，需要考虑连接泄露导致系统崩溃的后果
+      maxTotalConnect: 1000
+      #每个路由的最大连接数,如果只调用一个地址,可以将其设置为最大连接数
+      maxConnectPerRoute: 200
+      # 指客户端和服务器建立连接的超时时间,ms , 最大约21秒,因为内部tcp在进行三次握手建立连接时,默认tcp超时时间是20秒
+      connectTimeout: 4000
+      # 指客户端从服务器读取数据包的间隔超时时间,不是总读取时间,也就是socket timeout,ms
+      readTimeout: 5000
+      # 从连接池获取连接的timeout,不宜过大,ms
+      connectionRequestTimout: 200
+      # 重试次数
+      retryTimes: 3
+      charset: UTF-8
+      # 长连接保持时间 单位s,不宜过长
+      keepAliveTime: 10
+      # 针对不同的网址,长连接保持的存活时间,单位s,如果是频繁而持续的请求,可以设置小一点,不建议设置过大,避免大量无用连接占用内存资源
+      keepAliveTargetHost:
+        www.baidu.com: 5
+mybatis:
+  typeAliasesPackage: com.jrong.xyz.domain
+  mapperLocations: classpath:mapper/*.xml
+  # spring boot集成mybatis的方式打印sql
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+dubbo:
+  application:
+    name: xyz-dubbo-provider
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    name: dubbo
+    port: 20886
+  consumer:
+    timeout: 30000
+server:
+  port: 38080
+  undertow:
+    worker-threads: 1000
+quartz:
+  enabled: true
+application:
+  file-path: logs/img/
+  log-path: logs/
+  max-login-fail: 5
+  sms:
+    simulate: true
+#   userid: E107O9
+#   pwd: a28367
+#   url: http://api01.monyun.cn:7901/sms/v2/std/
+    userid: JC2364
+    pwd: 665233
+    url: http://61.145.229.29:9002/sms/v2/std/single_send
